@@ -24,13 +24,23 @@ namespace Client
             while (true)
             {
                 string message = Console.ReadLine();
-                byte[] data = Encoding.UTF8.GetBytes(message);
+                byte[] data = BytesFromString(message);
                 socket.SendTo(data, serverEndPoint);
 
                 byte[] response = new byte[data.Length];
                 int rlen = socket.Receive(response);
-                Console.WriteLine(new string(Encoding.UTF8.GetChars(response, 0, response.Length)));
+                Console.WriteLine(StringFromBytes(response));
             }
+        }
+
+        string StringFromBytes(byte[] data)
+        {
+            return new string(Encoding.UTF8.GetChars(data, 0, data.Length));
+        }
+        
+        byte[] BytesFromString(string message)
+        {
+            return Encoding.UTF8.GetBytes(message);
         }
     }
 }
